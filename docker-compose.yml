@@ -1,16 +1,4 @@
-mongo:
-  image: mongo:latest
-  volumes: 
-    - /data/db/mongo
-  ports:
-    - "27027:27017"
-redis:
-  image: redis
-  volumes: 
-    - /data/db/redis
-  ports: 
-    - "6379:6379"
-    services:
+services:
   mongo-hotels:
     image: mongodb/mongodb-community-server
     ports:
@@ -23,10 +11,15 @@ redis:
     ports:
       - 8081:8081
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://localhost:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://mongo-hotels:27017/
     depends_on:
       - mongo-hotels
 
+  # storage:
+  #   image: redis
+  #   volumes:
+  #     - ./data:/data
+  
   backend:
     image: node:20.11
     volumes:
@@ -34,9 +27,31 @@ redis:
     working_dir: /app
     environment:
       - PORT=4000
-      - MONGO_CONNECTION=mongodb://localhost:27017/hotels
+      - MONGO_CONNECTION=mongodb://mongo-hotels:27017/hotels
+      - JWT_SECRET=secret_s3ui4er76n7s8ieu9rn90hfauiSerGFnGfawfjGjhGfaGkjshda
     ports:
       - 4000:4000
     command: npm run start:dev
     depends_on:
       - mongo-hotels
+
+  frontend:
+    image: node:20.11
+    volumes:
+      - ./frontend:/app
+    working_dir: /app
+    environment:
+      - PORT=3000
+      - REACT_APP_BACK_URL=http://localhost:4000
+      - REACT_APP_POSTFIX_LOGIN=/api/auth/login
+      - REACT_APP_POSTFIX_SIGNUP=/api/auth/signup
+      - REACT_APP_POSTFIX_USERS=/api/admin/users
+      - REACT_APP_POSTFIX_HOTELS=/api/admin/hotels
+      - REACT_APP_POSTFIX_ROOMS=/api/admin/hotel-rooms
+      - REACT_APP_POSTFIX_RESERVATION=/api/client/reservations
+    ports:
+      - 3000:3000
+    command: npm run start
+    depends_on:
+      - mongo-hotels
+      - backend
