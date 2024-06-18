@@ -10,7 +10,7 @@
   - **Node.js, Nest.jx, MongoDB, WebSocket**
   - **React, Redux, React Router, Redux-Saga**
 
-  Клонируем проект: **"git clone https://github.com/ozkostay/fjs-diplom.git"**
+  Клонируем проект: **"git clone https://github.com/AveMrk/fjs-diplom"**
 
   Корень приложения: **fjs-diplom**
   
@@ -26,12 +26,7 @@
   
   В корне запустить **docker compose up**
   
-  ##### Итог:
-  - localhost:3000 - fromtend
-  - localhost:4000 - backend
-  - localhost:27017 - mongodb
-  
-  ##### Итог:
+  ##### Приложение:
 
   - localhost:3000 - frontend
   - localhost:4000 - backend
