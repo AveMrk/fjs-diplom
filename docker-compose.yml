@@ -21,7 +21,8 @@ services:
   #     - ./data:/data
   
   backend:
-    image: node:20.11
+    #image: node:20.11
+    image: backend
     volumes:
       - ./backend:/app
     working_dir: /app
@@ -36,7 +37,8 @@ services:
       - mongo-hotels
 
   frontend:
-    image: node:20.11
+    #image: node:20.11
+    image: fontend
     volumes:
       - ./frontend:/app
     working_dir: /app
