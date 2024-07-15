@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb"
-import http from 'http'
+import http, { IncomingMessage, ServerResponse } from 'http'
 
 
 const DATABASE_USERNAME=process.env.MONGO_INITDB_ROOT_USERNAME
@@ -21,11 +21,22 @@ async function main() {
   try{
     await client.connect()
     console.log('connected to mongo')
-    const server = http.createServer
-    server.on('request', async (req, res)=>{
-      const result = await collection.findOne()
-      res.end(JSON.stringify(result))
-    })
+    const server = http.createServer((req:IncomingMessage, res:ServerResponse)=>{
+      collection.findOne().then((result) => {
+        res.end(JSON.stringify(result))
+      })
+    });
+    server.on('listening', () => {
+      console.log('server is listening');
+    });
+    server.listen(3000);
+    //server.on('request', async (req:IncomingMessage, res:ServerResponse)=>{
+     // const result = await collection.findOne()
+     // res.end(JSON.stringify(result)) 
+    //})
+  }
+  catch(e){
+    console.log(e)
   }
 }
 

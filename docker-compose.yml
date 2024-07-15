@@ -4,6 +4,9 @@ services:
     ports:
       - 27017:27017
     restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: stoltzoa
+      MONGO_INITDB_ROOT_PASSWORD: 4sG-RK6-byX-96c
 
   mongo-express:
     image: mongo-express
@@ -11,7 +14,7 @@ services:
     ports:
       - 8081:8081
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://mongo-hotels:27017/
+      ME_CONFIG_MONGODB_URL: mongodb+srv://stoltzoa:4sG-RK6-byX-96c@users.x1mtg6d.mongodb.net/?retryWrites=true&w=majority&appName=users
     depends_on:
       - mongo-hotels
 
@@ -23,6 +26,9 @@ services:
   backend:
     #image: node:20.11
     image: backend
+    build: 
+      context: backend
+      dockerfile: ./Dockerfile
     volumes:
       - ./backend:/app
     working_dir: /app
@@ -39,6 +45,9 @@ services:
   frontend:
     #image: node:20.11
     image: fontend
+    build: 
+      context: frontend
+      dockerfile: ./Dockerfile
     volumes:
       - ./frontend:/app
     working_dir: /app
