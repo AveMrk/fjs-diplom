@@ -12,9 +12,14 @@ services:
     image: mongo-express
     restart: always
     ports:
-      - 8081:8081
+      - 8081:8081 
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb+srv://stoltzoa:4sG-RK6-byX-96c@users.x1mtg6d.mongodb.net/?retryWrites=true&w=majority&appName=users
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_AUTH_USERNAME: stoltzoa
+      ME_CONFIG_MONGODB_AUTH_PASSWORD: 4sG-RK6-byX-96c
+      ME_CONFIG_MONGODB_BASICAUTH_USERNAME: admin
+      ME_CONFIG_MONGODB_BASICAUTH_PASSWORD: admin
     depends_on:
       - mongo-hotels
 
